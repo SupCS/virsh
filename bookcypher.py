@@ -93,9 +93,10 @@ class PoemCipher:
         """Шифрування повідомлення через вірш."""
         cipher_text = []
         for char in message:
+            char_lower = char.lower()  # Перетворюємо на нижній регістр
             for row_idx, row in enumerate(self.matrix):
-                if char in row:
-                    col_idx = row.index(char)
+                if char_lower in row:
+                    col_idx = row.index(char_lower)
                     cipher_text.append(f"{row_idx+1}/{col_idx+1}")
                     break
         return ", ".join(cipher_text)
@@ -106,9 +107,9 @@ class PoemCipher:
         pairs = cipher_text.split(", ")
         for pair in pairs:
             row, col = map(int, pair.split("/"))
-            message.append(self.matrix[row-1][col-1])
+            decrypted_char = self.matrix[row-1][col-1]
+            message.append(decrypted_char)
         return "".join(message)
-
 
 class CryptoGUI:
     def __init__(self, root):
